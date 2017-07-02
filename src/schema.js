@@ -7,15 +7,22 @@ const typeDefs = `
     lastName: String
   }
 
+  # A stock quote
+  type StockQuote {
+    quote: String
+  }
+
   # the schema allows the following query:
   type Query {
     author(id: Int!): Author
+    stockQuote(symbol: String!): StockQuote
   }
 `;
 
 const resolvers = {
   Query: {
-    author: (_, { id }, { authors }) => authors.find(id)
+    author: (_, { id }, { authors }) => authors.find(id),
+    stockQuote: (_, { symbol }, { stockQuote }) => stockQuote.get(symbol)
   }
 };
 

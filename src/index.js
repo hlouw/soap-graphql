@@ -3,14 +3,15 @@ import bodyParser from "body-parser";
 import { graphqlExpress } from "graphql-server-express";
 import { graphiqlExpress } from "graphql-server-express";
 
-import { staticDataConnector } from "./connectors";
-import { Authors } from "./models";
+import { staticDataConnector, soapConnector } from "./connectors";
+import { Authors, StockQuote } from "./models";
 import schema from "./schema";
 
 const PORT = 3000;
 
 const context = {
-  authors: new Authors({ connector: staticDataConnector })
+  authors: new Authors({ connector: staticDataConnector }),
+  stockQuote: new StockQuote({ connector: soapConnector })
 };
 
 const app = express();
