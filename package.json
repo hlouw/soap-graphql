@@ -1,5 +1,5 @@
 {
-  "name": "soap-gateway",
+  "name": "soap-graphql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,7 @@
     "build": "babel src -d dist",
     "serve": "node dist/index.js"
   },
-  "author": "",
+  "author": "Hentie Louw",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.24.1",
