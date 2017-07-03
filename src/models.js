@@ -1,21 +1,35 @@
-export class Authors {
+import { soap } from "strong-soap";
+
+var XMLHandler = soap.XMLHandler;
+const xmlHandler = new XMLHandler();
+
+export class GlobalWeather {
   constructor({ connector }) {
     this.connector = connector;
   }
 
-  find(id) {
-    return this.connector.findAuthor(id);
+  getWeather(CityName, CountryName) {
+    return this.connector
+      .request("GlobalWeather", "GlobalWeatherSoap", "GetWeather", {
+        CityName,
+        CountryName
+      })
+      .then(result => ({
+        weather: JSON.stringify(
+          xmlHandler.xmlToJson(null, result.GetWeatherResult, null)
+        )
+      }));
   }
-}
 
-export class StockQuote {
-  constructor({ connector }) {
-    this.connector = connector;
-  }
-
-  get(symbol) {
-    return this.connector.request("GetQuote", { symbol }).then(result => ({
-      quote: result.GetQuoteResult
-    }));
+  getCities(CountryName) {
+    return this.connector
+      .request("GlobalWeather", "GlobalWeatherSoap", "GetCitiesByCountry", {
+        CountryName
+      })
+      .then(
+        result =>
+          xmlHandler.xmlToJson(null, result.GetCitiesByCountryResult, null)
+            .NewDataSet.Table
+      );
   }
 }

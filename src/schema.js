@@ -1,28 +1,28 @@
 import { makeExecutableSchema, gql } from "graphql-tools";
 
 const typeDefs = `
-  type Author {
-    id: Int!
-    firstName: String
-    lastName: String
+  type Weather {
+    weather: String
   }
 
-  # A stock quote
-  type StockQuote {
-    quote: String
+  type City {
+    Country: String,
+    City: String
   }
 
   # the schema allows the following query:
   type Query {
-    author(id: Int!): Author
-    stockQuote(symbol: String!): StockQuote
+    weather(cityName: String, countryName: String): Weather
+    cities(countryName: String): [City]
   }
 `;
 
 const resolvers = {
   Query: {
-    author: (_, { id }, { authors }) => authors.find(id),
-    stockQuote: (_, { symbol }, { stockQuote }) => stockQuote.get(symbol)
+    weather: (_, { cityName, countryName }, { globalWeather }) =>
+      globalWeather.getWeather(cityName, countryName),
+    cities: (_, { countryName }, { globalWeather }) =>
+      globalWeather.getCities(countryName)
   }
 };
 
